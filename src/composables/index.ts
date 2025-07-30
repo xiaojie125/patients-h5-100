@@ -11,15 +11,15 @@ import { sendMobileCode } from '@/services/user'
 // import type { OrderDetail } from '@/types/order'
 import type { CodeType } from '@/types/user'
 import {
-  showFailToast,
-  showImagePreview,
-  showSuccessToast,
+  // showFailToast,
+  // showImagePreview,
+  // showSuccessToast,
   type FormInstance,
   showToast
 } from 'vant'
 import type { Ref } from 'vue'
 import { onUnmounted } from 'vue'
-import { ref, onMounted } from 'vue'
+import { ref } from 'vue'
 
 // Vue3概念：通过组合式API封装 数据逻辑 在一起的函数，组合式函数 useXxx
 // composable

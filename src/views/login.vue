@@ -78,6 +78,9 @@
 </template>
 
 <script setup lang="ts">
+defineOptions({
+  name: 'loginPage'
+})
 import { useMobileCode } from '@/composables'
 import { loginByMobile, loginByPassword } from '@/services/user'
 import { useUserStore } from '@/stores'
