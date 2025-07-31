@@ -81,9 +81,9 @@
 defineOptions({
   name: 'loginPage'
 })
-import { useMobileCode } from '@/composables'
-import { loginByMobile, loginByPassword } from '@/services/user'
-import { useUserStore } from '@/stores'
+import { useMobileCode } from '@/hooks/useMobileCode'
+import { loginByMobile, loginByPassword } from '@/api/user'
+import { useUserStore } from '@/store'
 import { codeRules, mobileRules, passwordRules } from '@/utils/rules'
 import { showSuccessToast, showToast } from 'vant'
 import { ref } from 'vue'

@@ -1,4 +1,4 @@
-import { useUserStore } from '@/stores'
+import { useUserStore } from '@/store'
 import router from '@/router'
 import axios, { AxiosError, type Method } from 'axios'
 import { showToast } from 'vant'
