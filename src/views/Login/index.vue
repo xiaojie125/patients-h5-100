@@ -1,24 +1,21 @@
 <template>
   <div class="login-page">
-    <cp-nav-bar
-      right-text="注册"
-      @click-right="$router.push('/register')"
-    ></cp-nav-bar>
+    <cp-nav-bar right-text="注册" @click-right="$router.push('/register')"></cp-nav-bar>
     <!-- 头部 -->
     <div class="login-head">
-      <h3>{{ isPass ? '密码登录' : '短信验证码登录' }}</h3>
+      <h3>{{ isPass ? "密码登录" : "短信验证码登录" }}</h3>
       <a href="javascript:;">
         <span @click="isPass = !isPass">
-          {{ isPass ? '短信验证码登录' : '密码登录' }}
+          {{ isPass ? "短信验证码登录" : "密码登录" }}
         </span>
         <van-icon name="arrow"></van-icon>
       </a>
     </div>
     <!-- 表单 -->
-    <van-form autocomplete="off" @submit="onSubmit" ref="form">
+    <van-form ref="form" autocomplete="off" @submit="onSubmit">
       <van-field
-        name="mobile"
         v-model="mobile"
+        name="mobile"
         :rules="mobileRules"
         placeholder="请输入手机号"
         type="tel"
@@ -33,20 +30,15 @@
         <template #button>
           <cp-icon
             :name="`login-eye-${isShow ? 'on' : 'off'}`"
-            @click="isShow = !isShow"
             style="margin-right: 10px"
+            @click="isShow = !isShow"
           ></cp-icon>
         </template>
       </van-field>
-      <van-field
-        v-else
-        :rules="codeRules"
-        placeholder="短信验证码"
-        v-model="code"
-      >
+      <van-field v-else v-model="code" :rules="codeRules" placeholder="短信验证码">
         <template #button>
           <span class="btn-send" :class="{ active: time > 0 }" @click="onSend">
-            {{ time > 0 ? `${time}s后再次发送` : '发送验证码' }}
+            {{ time > 0 ? `${time}s后再次发送` : "发送验证码" }}
           </span>
         </template>
       </van-field>
@@ -59,9 +51,7 @@
         </van-checkbox>
       </div>
       <div class="cp-cell">
-        <van-button native-type="submit" block round type="primary">
-          登 录
-        </van-button>
+        <van-button native-type="submit" block round type="primary">登 录</van-button>
       </div>
       <div class="cp-cell">
         <a href="javascript:;">忘记密码？</a>
@@ -79,49 +69,49 @@
 
 <script setup lang="ts">
 defineOptions({
-  name: 'loginPage'
-})
-import { useMobileCode } from '@/hooks/useMobileCode'
-import { loginByMobile, loginByPassword } from '@/api/user'
-import { useUserStore } from '@/store'
-import { codeRules, mobileRules, passwordRules } from '@/utils/rules'
-import { showSuccessToast, showToast } from 'vant'
-import { ref } from 'vue'
-import { useRoute, useRouter } from 'vue-router'
+  name: "loginPage",
+});
+import { useMobileCode } from "@/hooks/useMobileCode";
+import { loginByMobile, loginByPassword } from "@/api/user";
+import { useUserStore } from "@/store";
+import { codeRules, mobileRules, passwordRules } from "@/utils/rules";
+import { showSuccessToast, showToast } from "vant";
+import { ref } from "vue";
+import { useRoute, useRouter } from "vue-router";
 
-const mobile = ref('13211112222')
-const password = ref('abc12345')
-const agree = ref(false)
+const mobile = ref("13211112222");
+const password = ref("abc12345");
+const agree = ref(false);
 
-const store = useUserStore()
-const router = useRouter()
-const route = useRoute()
+const store = useUserStore();
+const router = useRouter();
+const route = useRoute();
 const onSubmit = async () => {
-  if (!agree.value) return showToast('请勾选协议')
+  if (!agree.value) return showToast("请勾选协议");
   // 进行登录(合并短信登录)
   const res = isPass.value
     ? await loginByPassword(mobile.value, password.value)
-    : await loginByMobile(mobile.value, code.value)
-  store.setUser(res.data)
-  showSuccessToast('登录成功')
-  router.replace((route.query.returnUrl as string) || '/user')
-}
+    : await loginByMobile(mobile.value, code.value);
+  store.setUser(res.data);
+  showSuccessToast("登录成功");
+  router.replace((route.query.redirect as string) || "/user");
+};
 
 // 短信登录界面切换
-const isPass = ref(true)
-const code = ref('')
+const isPass = ref(true);
+const code = ref("");
 
 // 发送短信验证码
-const { onSend, time, form } = useMobileCode(mobile)
+const { onSend, time, form } = useMobileCode(mobile);
 
 // 密码的可见与不可见
-const isShow = ref(false)
+const isShow = ref(false);
 
 // http%3A%2F%2Fconsult-patients.itheima.net%2Flogin%2Fcallback
 
 const url =
-  'https://graph.qq.com/oauth2.0/authorize?client_id=102015968&response_type=token&scope=all&redirect_uri=' +
-  encodeURIComponent(import.meta.env.VITE_APP_CALLBACK + '/login/callback')
+  "https://graph.qq.com/oauth2.0/authorize?client_id=102015968&response_type=token&scope=all&redirect_uri=" +
+  encodeURIComponent(import.meta.env.VITE_APP_CALLBACK + "/login/callback");
 </script>
 
 <style lang="scss" scoped>
