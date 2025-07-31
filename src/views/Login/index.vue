@@ -72,7 +72,7 @@ defineOptions({
   name: "loginPage",
 });
 import { useMobileCode } from "@/hooks/useMobileCode";
-import { loginByMobile, loginByPassword } from "@/api/user";
+import UserAPI from "@/api/user";
 import { useUserStore } from "@/store";
 import { codeRules, mobileRules, passwordRules } from "@/utils/rules";
 import { showSuccessToast, showToast } from "vant";
@@ -90,8 +90,8 @@ const onSubmit = async () => {
   if (!agree.value) return showToast("请勾选协议");
   // 进行登录(合并短信登录)
   const res = isPass.value
-    ? await loginByPassword(mobile.value, password.value)
-    : await loginByMobile(mobile.value, code.value);
+    ? await UserAPI.loginByPassword(mobile.value, password.value)
+    : await UserAPI.loginByMobile(mobile.value, code.value);
   store.setUser(res.data);
   showSuccessToast("登录成功");
   router.replace((route.query.redirect as string) || "/user");

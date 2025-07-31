@@ -1,5 +1,5 @@
 import type { User } from "@/types/user";
-import { setRefreshToken, setToken } from "@/utils/auth";
+import { clearToken, setRefreshToken, setToken } from "@/utils/auth";
 import { defineStore } from "pinia";
 import { ref } from "vue";
 
@@ -17,6 +17,7 @@ export const useUserStore = defineStore(
     // 清空用户，退出后使用
     const delUser = () => {
       user.value = undefined;
+      clearToken();
     };
     return { user, setUser, delUser };
   },

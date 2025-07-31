@@ -12,14 +12,14 @@ export function setupPermission() {
 
     const isLogin = !!getToken(); // 判断是否登陆
     if (isLogin) {
-      if (to.path === "login") {
+      if (to.path === "/login") {
         // 已登录，访问登录页，重定向到主页
         next({ path: "/" });
       } else {
         next();
       }
     } else {
-      // 未登录，判断是否在白名单中
+      // 未登录，判断是否在白名单中i
       if (whiteList.includes(to.path)) {
         next();
       } else {
@@ -31,7 +31,8 @@ export function setupPermission() {
   });
 
   // 后置守卫，保证每次路由跳转结束时关闭进度条
-  router.afterEach(() => {
+  router.afterEach((to) => {
+    document.title = `${to.meta.title || ""}-优医问诊`;
     NProgress.done();
   });
 }

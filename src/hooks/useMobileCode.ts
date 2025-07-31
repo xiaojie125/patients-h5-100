@@ -1,4 +1,4 @@
-import { sendMobileCode } from "@/api/user";
+import UserAPI from "@/api/user";
 import type { CodeType } from "@/types/user";
 import { type FormInstance, showToast } from "vant";
 import { ref, onUnmounted, type Ref } from "vue";
@@ -13,7 +13,7 @@ export const useMobileCode = (mobile: Ref<string>, type: CodeType = "login") => 
     // 验证：倒计时 手机号
     if (time.value > 0) return;
     await form.value?.validate("mobile");
-    await sendMobileCode(mobile.value, type);
+    await UserAPI.sendMobileCode(mobile.value, type);
     showToast("发送成功");
     time.value = 60;
     // 开启倒计时

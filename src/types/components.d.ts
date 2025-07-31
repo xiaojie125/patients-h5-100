@@ -1,9 +1,9 @@
-import CpNavBar from '@/components/CpNavBar.vue'
-import CpIcon from '@/components/CpIcon.vue'
+import CpNavBar from "@/components/CpNavBar.vue";
+import CpIcon from "@/components/CpIcon.vue";
 
-declare module 'vue' {
+declare module "vue" {
   interface GlobalComponents {
-    CpNavBar: typeof CpNavBar
-    CpIcon: typeof CpIcon
+    CpNavBar: typeof CpNavBar;
+    CpIcon: typeof CpIcon;
   }
 }
