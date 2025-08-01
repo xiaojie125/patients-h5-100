@@ -92,7 +92,6 @@ const user = ref<UserInfo>();
 // 获取用户信息
 const getUserInfo = async () => {
   const res = await UserAPI.getUserInfo();
-  console.log("res", res);
   user.value = res.data;
 };
 
