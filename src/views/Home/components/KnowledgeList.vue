@@ -6,31 +6,44 @@
       finished-text="没有更多了"
       @load="onLoad"
     >
-      <knowledge-card v-for="(item, i) in list" :key="i" />
+      <knowledge-card v-for="item in list" :key="item.id" :item="item" />
     </van-list>
   </div>
 </template>
 
 <script setup lang="ts">
+import { KnowledgeList, KnowledgeParams, KnowledgeType } from "@/types/consult";
 import KnowledgeCard from "./KnowledgeCard.vue";
+import ConsultAPI from "@/api/consult";
 import { ref } from "vue";
 
-const list = ref<number[]>([]);
+const props = defineProps<{
+  type: KnowledgeType;
+}>();
+
+// 数据列表
+const list = ref<KnowledgeList>([]);
+// 加载中状态
 const loading = ref(false);
+// 是否已全部加载完毕
 const finished = ref(false);
-const onLoad = () => {
+// 查询参数
+const params = ref<KnowledgeParams>({
+  type: props.type,
+  current: 1,
+  pageSize: 10,
+});
+// 滚动到底部
+const onLoad = async () => {
   // 加载数据
-  console.log("loading");
-  // 模拟加载更多
-  setTimeout(() => {
-    const data = [1, 2, 3, 4, 5];
-    list.value.push(...data);
-    // 模拟加载完毕
-    if (list.value.length > 20) {
-      finished.value = true;
-    }
-    loading.value = false;
-  }, 1000);
+  const res = await ConsultAPI.getKnowledgePage(params.value);
+  list.value.push(...res.data.rows);
+  if (params.value.current >= res.data.pageTotal) {
+    finished.value = true;
+  } else {
+    params.value.current++;
+  }
+  loading.value = false;
 };
 </script>
 

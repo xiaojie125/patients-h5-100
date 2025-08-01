@@ -75,10 +75,19 @@
     </div>
     <!-- TAB -->
     <van-tabs v-model:active="active" shrink sticky>
-      <van-tab title="关注"><knowledge-list /></van-tab>
-      <van-tab title="推荐"><knowledge-list /></van-tab>
-      <van-tab title="减脂"><knowledge-list /></van-tab>
-      <van-tab title="饮食"><knowledge-list /></van-tab>
+      <van-tab title="关注" name="like">
+        <follow-doctor></follow-doctor>
+        <knowledge-list type="like" />
+      </van-tab>
+      <van-tab title="推荐">
+        <knowledge-list type="recommend" />
+      </van-tab>
+      <van-tab title="减脂">
+        <knowledge-list type="fatReduction" />
+      </van-tab>
+      <van-tab title="饮食">
+        <knowledge-list type="food" />
+      </van-tab>
     </van-tabs>
   </div>
 </template>
@@ -86,6 +95,7 @@
 <script setup lang="ts">
 import { ref } from "vue";
 import KnowledgeList from "./components/KnowledgeList.vue";
+import FollowDoctor from "./components/FollowDoctor.vue";
 
 // active 的值是 tab 的索引
 const active = ref(1);
